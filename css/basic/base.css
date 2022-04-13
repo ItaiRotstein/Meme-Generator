@@ -1,0 +1,21 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    color: var(--clr1);
+    font-family: poppins, sans-serif;
+}
+
+body {
+    margin: 0;
+    font-size: 1.31rem;
+    background-color: var(--clr1);
+    width: 100vw;
+    height: 100vh;
+    background-image: url('/img/bg.png');
+    background-repeat: no-repeat;
+    background-position: -160% 49%;
+    background-size: 87%;
+    box-shadow: 0 0 8px 8px var(--clr1) inset;
+}

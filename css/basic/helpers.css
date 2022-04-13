@@ -1,0 +1,14 @@
+
+.grid {
+    display: grid;
+}
+
+.btn {
+    background-color: transparent;
+    border: none;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
