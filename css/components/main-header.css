@@ -90,6 +90,12 @@ body.menu-open .menu-btn {
         font-size: 1.0em;
     }
 
+    .main-nav li:hover {
+        color: var(--clr1);
+        letter-spacing: 0;
+        text-decoration: underline;
+    }
+
     .menu-btn {
         display: none;
     }
