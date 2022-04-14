@@ -6,19 +6,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meme Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/main.css">
 </head>
 
 <body onload="init()">
 
+    <div class="main-screen" onclick="toggleMenu()"></div>
+
     <header class="main-header">
+
         <img class="logo" src="img/LOGO.png" alt="">
+
         <ul class="main-nav">
             <li onclick="renderGallery()">Gallery</li>
             <li>Memes</li>
             <li>About</li>
         </ul>
+        <button class="btn menu-btn" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button>
     </header>
+
+
+
 
     <main class="main-container">
         <div class="gallery"></div>
@@ -27,25 +38,62 @@
 
         <section class="ui-container">
 
-            
+
             <form onsubmit="onDrawText(event)">
                 <input class="input" name="line-input" type="text" placeholder="Type Line" autocomplete="off">
             </form>
+
+
+
             <section class="line-controls">
-                <button class="btn btn-control add" onclick="onDrawText(event)"><img class="btn-img" src="img/ICONS/add.png"></button>
-                <button class="btn btn-control up-down"><img class="btn-img" src="img/ICONS/up-and-down.png"></button>
-                <button class="btn btn-control trash"><img class="btn-img" src="img/ICONS/trash.png"></button>
+
+                <button class="btn btn-control add" onclick="onDrawText(event)">
+                    <img class="btn-img"src="img/ICONS/add.png">
+                </button>
+
+                <button class="btn btn-control up-down">
+                    <img class="btn-img" src="img/ICONS/up-and-down.png">
+                </button>
+
+                <button class="btn btn-control trash">
+                    <img class="btn-img" src="img/ICONS/trash.png">
+                </button>
+
             </section>
 
+
+
             <section class="text-controls">
-                <button class="btn btn-control" onclick="onSetFontSize(2)"><img class="btn-img" src="img/ICONS/increase font.png"></button>
-                <button class="btn btn-control" onclick="onSetFontSize(-2)"><img class="btn-img" src="img/ICONS/decrease font.png"></button>
-                <button class="btn btn-control" onclick="onSetTextAlign('right')"><img class="btn-img" src="img/ICONS/align-to-left.png"></button>
-                <button class="btn btn-control" onclick="onSetTextAlign('center')"><img class="btn-img" src="img/ICONS/center-text-align.png"></button>
-                <button class="btn btn-control" onclick="onSetTextAlign('left')"><img class="btn-img" src="img/ICONS/align-to-right.png"></button>
-                <button class="btn btn-control" onclick="onSetTextStroke()"><img class="btn-img" src="img/ICONS/text stroke.png"></button>
-                <button class="btn btn-control color"><input type="color" id="text-color" value="#015EFE"
-                        oninput="onSetTextColor(value)"></button>
+
+                <button class="btn btn-control" onclick="onSetFontSize(2)">
+                    <img class="btn-img"src="img/ICONS/increase font.png">
+                </button>
+
+                <button class="btn btn-control" onclick="onSetFontSize(-2)">
+                    <img class="btn-img"src="img/ICONS/decrease font.png">
+                </button>
+
+                <button class="btn btn-control" onclick="onSetTextAlign('right')">
+                    <img class="btn-img" src="img/ICONS/align-to-left.png">
+                </button>
+
+                <button class="btn btn-control align-center" onclick="onSetTextAlign('center')">
+                    <img class="btn-img"src="img/ICONS/center-text-align.png">
+                </button>
+
+                <button class="btn btn-control align-right" onclick="onSetTextAlign('left')">
+                    <img class="btn-img"src="img/ICONS/align-to-right.png">
+                </button>
+
+                <button class="btn btn-control stroke" onclick="onSetTextStroke()">
+                    <img class="btn-img"src="img/ICONS/text stroke.png">
+                </button>
+
+                <button class="btn btn-control color">
+                    <input type="color" id="text-color" value="#015EFE"oninput="onSetTextColor(value)">
+                </button>
+
+
 
                 <select class="font-select" name="font-select" id="font-select" onchange="onSetFont(value)">
                     <option value="">Select Font</option>
@@ -55,6 +103,8 @@
                     <option value="monospace">monospace</option>
                     <option value="Courier New">Courier New</option>
                 </select>
+
+
             </section>
 
 
@@ -73,6 +123,11 @@
 
     </main>
 
+    <script>
+        function toggleMenu() {
+            document.body.classList.toggle("menu-open");
+        }
+    </script>
     <script src="js/service/util.js"></script>
     <script src="js/service/upload-service.js"></script>
     <script src="js/service/meme-service.js"></script>

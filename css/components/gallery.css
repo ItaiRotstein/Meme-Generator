@@ -20,16 +20,13 @@
 }
 
 @media (min-width:720px) {
-    .gallery {
-       
+    .gallery { 
+        align-self: flex-start;
         gap: 5em;
-     
     }
 
     .gallery img {
-
-        width: 10em;
-      
+        width: 9em;
     }
     
 }
