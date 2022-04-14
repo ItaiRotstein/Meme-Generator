@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,17 +8,83 @@
     <title>Meme Generator</title>
     <link rel="stylesheet" href="css/main.css">
 </head>
-<body>
-    
+
+<body onload="init()">
+
     <header class="main-header">
-        <img class="logo" src="img/LOGO.png" alt="">       
+        <img class="logo" src="img/LOGO.png" alt="">
+        <ul class="main-nav">
+            <li onclick="renderGallery()">Gallery</li>
+            <li>Memes</li>
+            <li>About</li>
+        </ul>
     </header>
 
-    <div class="canvas-container">
-        <canvas width="400" height="400"></canvas>
-    </div>
+    <main class="main-container">
+        <div class="gallery"></div>
 
+        <canvas class="canvas" id="canvas" width="700" height="700"></canvas>
+
+        <section class="ui-container">
+
+            
+            <form onsubmit="onDrawText(event)">
+                <input class="input" name="line-input" type="text" placeholder="Type Line" autocomplete="off">
+            </form>
+            <section class="line-controls">
+                <button class="btn btn-control add" onclick="onDrawText(event)"><img class="btn-img" src="img/ICONS/add.png"></button>
+                <button class="btn btn-control up-down"><img class="btn-img" src="img/ICONS/up-and-down.png"></button>
+                <button class="btn btn-control trash"><img class="btn-img" src="img/ICONS/trash.png"></button>
+            </section>
+
+            <section class="text-controls">
+                <button class="btn btn-control" onclick="onSetFontSize(2)"><img class="btn-img"
+                        src="img/ICONS/increase font.png"></button>
+                <button class="btn btn-control" onclick="onSetFontSize(-2)"><img class="btn-img"
+                        src="img/ICONS/decrease font.png"></button>
+                <button class="btn btn-control"><img class="btn-img" src="img/ICONS/align-to-left.png"></button>
+                <button class="btn btn-control"><img class="btn-img" src="img/ICONS/center-text-align.png"></button>
+                <button class="btn btn-control"><img class="btn-img" src="img/ICONS/align-to-right.png"></button>
+                <button class="btn btn-control"><img class="btn-img" src="img/ICONS/text stroke.png"></button>
+                <button class="btn btn-control color"><input type="color" id="text-color" value="#121212"
+                        oninput="onSetTextColor(value)"></button>
+
+                <select class="font-select" name="font-select" id="font-select" onchange="onSetFont(value)">
+                    <option value="">Select Font</option>
+                    <option value="Impact">Impact</option>
+                    <option value="Arial">Arial</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="monospace">monospace</option>
+                    <option value="Courier New">Courier New</option>
+                </select>
+            </section>
+
+
+            <ul class="stickers">
+                <li class="sticker"><img onclick="onSetSticker(this)" src="img/imojis/1.png"></li>
+                <li class="sticker"><img onclick="onSetSticker(this)" src="img/imojis/2.png"></li>
+                <li class="sticker"><img onclick="onSetSticker(this)" src="img/imojis/3.png"></li>
+                <!-- <li class="sticker"></li>
+                <li class="sticker"></li>
+                <li class="sticker"></li>
+                <li class="sticker"></li>
+                <li class="sticker"></li>
+                <li class="sticker"></li>
+                <li class="sticker"></li> -->
+            </ul>
+
+            <section class="share-controls">
+                <button class="btn share">SHARE</button>
+                <a class="btn download" href="#" onclick="downloadCanvas(this)">DOWNLOAD</a>
+            </section>
+
+        </section>
+
+    </main>
+
+    <script src="js/service/util.js"></script>
     <script src="js/service/meme-service.js"></script>
-    <script src="js/meme-controller.js"></script>
+    <script src="js/main-controller.js"></script>
 </body>
+
 </html>

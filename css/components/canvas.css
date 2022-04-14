@@ -1,4 +1,25 @@
-
-.canvas-container {
+#canvas {
     background-color: #fff;
+    /* position: absolute; */
+    /* width: 500px;
+    height: 500px; */
+    /* top: 50%; */
+    /* left: 50%; */
+    /* transform: translate(-50%, -50%); */
+    border-radius: 1.5em;
 }
+
+@media (max-width: 920px) {
+    .canvas {
+        
+    }
+}
+
+@media (min-width: 920px) {
+
+    .canvas {
+     
+    }
+}
+
+@media (min-width: 1120px) {}

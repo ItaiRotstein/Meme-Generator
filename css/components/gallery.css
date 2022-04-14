@@ -1,0 +1,26 @@
+.gallery {
+    position: absolute;
+    width: 100vw;
+    display: none;
+    grid-template-columns: repeat(auto-fit, minmax(11em, 1fr));;
+    gap: 5em;
+    /* height: 100vh; */
+    /* z-index: 20; */
+    background-color: var(--clr2);
+    border-radius: 1em;
+}
+
+.gallery.open {
+    display: grid;
+}
+
+.gallery img {
+
+    margin: 2em;
+    width: 11em;
+    border-radius: 1em;
+    cursor: pointer;
+}
+
+
+
