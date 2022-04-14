@@ -4,7 +4,7 @@
     justify-content: space-between;
     background-image: linear-gradient(-86deg, #33be6d 0%, #0c98b9 100%);
     border-radius: 5em;
-    margin: 1em auto 5em;
+    margin: 1em auto 2em;
 }
 
 .main-header .logo {
@@ -63,11 +63,10 @@ body.menu-open .menu-btn {
 
     .main-header {
         font-size: 1em;
-
+        margin: 1em auto 5em;
     }
 
     .main-header .logo {
-        /* height: 1.14em; */
         margin: 0.61em;
     }
 
@@ -79,7 +78,6 @@ body.menu-open .menu-btn {
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
-        /* margin: auto 10em; */
         list-style: none;
         color: #fff;
         transform: none;
