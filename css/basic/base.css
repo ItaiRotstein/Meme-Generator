@@ -8,8 +8,6 @@ html {
 }
 
 body {
-    /* margin: 0; */
-    
     font-size: 1.31rem;
     background-color: var(--clr1);
 }

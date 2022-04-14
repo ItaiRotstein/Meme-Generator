@@ -25,6 +25,8 @@ let gCtxObjects = []
 let gCurrFont = 'Impact'
 let gCurrFontSize = 60
 let gCurrTextColor = '#ffffff'
+let gCurrTextAlign = 'left'
+let gCurrIsStroke = false
 
 var gKeywordSearchCountMap = { 'funny': 12, 'cat': 16, 'baby': 2 }
 
@@ -34,9 +36,9 @@ function getMeme() {
     return gMeme
 }
 
-function setMemeLine(txt, font, fontSize, textColor) {
+function setMemeLine(txt, font, fontSize, textColor, align, stroke) {
     if (gMeme === undefined) return
-    let line = _createLine(txt, font, fontSize, textColor)
+    let line = _createLine(txt, font, fontSize, textColor, align, stroke)
     gMeme.lines.push(line)
 }
 
@@ -63,6 +65,14 @@ function getFontSize() {
 
 function getTextColor() {
     return gCurrTextColor
+}
+
+function getTextAlign() {
+    return gCurrTextAlign
+}
+
+function isStroke() {
+    return gCurrIsStroke
 }
 
 function getImgs() {
@@ -94,7 +104,7 @@ function isCtxObjectClicked(clickedPos) {
 }
 
 function getCtxObjectByPos(pos) {
-           return gCtxObjects.find(ctxObject => (pos.x >= ctxObject.pos.x) && (pos.x <= (ctxObject.pos.x + ctxObject.size.x))
+    return gCtxObjects.find(ctxObject => (pos.x >= ctxObject.pos.x) && (pos.x <= (ctxObject.pos.x + ctxObject.size.x))
         && (pos.y >= ctxObject.pos.y) && (pos.y <= (ctxObject.pos.y + ctxObject.size.y))
     )
 }
@@ -121,6 +131,17 @@ function setTextColor(color) {
     gCurrTextColor = color
 }
 
+function setTextAlign(align) {
+    gCurrTextAlign = align
+    console.log('align', align)
+    console.log('gCurrTextAlign', gCurrTextAlign)
+    
+}
+
+function setTextStroke() {
+    gCurrIsStroke = true
+}
+
 let gStickerPos
 function getStickerPos(sticker) {
     if (gStickerPos) {
@@ -145,13 +166,15 @@ function _createMeme(imgId) {
     }
 }
 
-function _createLine(txt, font, fontSize, textColor) {
+function _createLine(txt, font, fontSize, textColor, align, isStroke) {
     return {
         txt,
         font,
         fontSize,
         textColor,
-        pos: _getPos()
+        pos: _getPos(), 
+        isStroke, 
+        align
     }
 }
 
@@ -161,10 +184,10 @@ function _getPos() {
         pos.x = gElCanvas.width / 3
         pos.y = gElCanvas.height / 6
     } else if (gMeme.inputCount === 1) {
-        pos.x = gElCanvas.width / 2
+        pos.x = gElCanvas.width / 3
         pos.y = (gElCanvas.height / 6) * 5
     } else {
-        pos.x = gElCanvas.width / 2
+        pos.x = gElCanvas.width / 3
         pos.y = gElCanvas.height / 2
     }
     gMeme.inputCount++

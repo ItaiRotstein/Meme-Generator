@@ -1,8 +1,9 @@
 .ui-container {
+    font-size: 0.6em;
     display: flex;
     flex-direction: column;
-    width: 700px;
-    height: 700px;
+    width: 300px;
+    height: 300px;
     background-color: var(--clr2);
     border-radius: 1.5em;
 }
@@ -16,7 +17,7 @@
     background-color: #FFF;
     border: none;
     border-radius: 1em;
-    font-size: 1.56em;
+    font-size: 1.57em;
     text-align: center;
 }
 
@@ -29,7 +30,6 @@
     display: flex;
     justify-content: center;
     gap: 1.5em;
-
 }
 
 .ui-container .btn-img {
@@ -37,8 +37,9 @@
 }
 
 .btn-control {
+    font-size: 0.7em;
     border-radius: 1em;
-    padding: 9px 12px;
+    padding: 0.2em 0.4em;
 }
 
 .btn-control.up-down {
@@ -57,12 +58,15 @@
 }
 
 .text-controls {
+    margin: 0 1em 0.7em;
     padding: 1em;
     display: grid;
     grid-template-rows: 1fr 1fr;
     grid-template-columns: repeat(5, 1fr);
     row-gap: 1em;
     column-gap: 1.5em;
+    background-color: #048b97;
+    border-radius: 1em;
 }
 
 .text-controls .font-select {
@@ -78,6 +82,10 @@
     box-shadow: 1px 5px 0 rgba(92, 92, 92, 0.55), inset 0 5px 0 rgba(255, 255, 255, 0.58);
 }
 
+.text-controls .btn-img {
+    width: 1.5em;
+}
+
 .stickers {
     margin: auto 1em;
     background-color: #FFF;
@@ -87,14 +95,10 @@
     list-style: none;
 }
 
-.stickers li {
-    /* background-color: tra; */
-}
-
 .stickers img {
-    width: 3.23em;
+    width: 2.3em;
     cursor: pointer;
-    padding: 0.2em;
+    padding: 0.3em 0 0;
 }
 
 input[type="color"] {
@@ -113,7 +117,7 @@ input[type="color"] {
 .share-controls .btn {
     color: white;
     border-radius: 1em;
-    font-size: 1.2em;
+    font-size: 1.1em;
     padding: 0.2em 0.5em;
 }
 
@@ -126,4 +130,21 @@ input[type="color"] {
     text-decoration: none;
     background-color: blue;
     box-shadow: 1px 5px 0 blue, inset 0 5px 0 rgba(255, 255, 255, 0.58);
+}
+
+@media (min-width:720px) {
+
+    .ui-container {
+        width: 350px;
+        height: 350px;
+        font-size: 0.8em;
+    }
+}
+
+@media (min-width: 1120px) {
+    .ui-container {
+        width: 500px;
+        height: 500px;
+        font-size: 1.1em;
+    } 
 }

@@ -88,6 +88,14 @@ function onSetTextColor(color) {
     setTextColor(color)
 }
 
+function onSetTextAlign(align) {
+    setTextAlign(align)
+}
+
+function onSetTextStroke() {
+    setTextStroke()
+}
+
 function onDrawText(ev) {
     ev.preventDefault()
 
@@ -97,7 +105,9 @@ function onDrawText(ev) {
     let font = getFont()
     let fontSize = getFontSize() + 'px'
     let textColor = getTextColor()
-    setMemeLine(txt.value, font, fontSize, textColor)
+    let textAlign = getTextAlign()
+    let stroke = isStroke()
+    setMemeLine(txt.value, font, fontSize, textColor, textAlign, stroke)
     drawText()
     txt.value = ''
 }
@@ -106,19 +116,21 @@ function drawText() {
     let meme = getMeme()
     if (!meme) return
     let line = meme.lines[meme.lines.length - 1]
+    console.log(meme);
+    gCtx.textBaseline = 'hanging'
+    gCtx.textAlign = line.align
 
-    gCtx.textBaseline = 'hanging';
-    // gCtx.textAlign = 'center';
-
+    
     gCtx.fillStyle = line.textColor
-    gCtx.font = line.fontSize + ' ' + line.font;
-    gCtx.fillText(line.txt, line.pos.x, line.pos.y);
+    gCtx.font = line.fontSize + ' ' + line.font
+    gCtx.fillText(line.txt, line.pos.x, line.pos.y)
+    
+    gCtx.strokeStyle = 'black';
+    if (line.isStroke) gCtx.strokeText(line.txt, line.pos.x, line.pos.y);
 
     let textWidth = gCtx.measureText(line.txt).width
     createCtxObject(line.pos, textWidth, line.fontSize)
 
-    // gCtx.strokeStyle = 'red';
-    // gCtx.strokeText(txt, 100, 100);
 }
 
 function onSetSticker(img) {

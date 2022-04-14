@@ -2,10 +2,7 @@
     position: absolute;
     width: 100vw;
     display: none;
-    grid-template-columns: repeat(auto-fit, minmax(11em, 1fr));;
-    gap: 5em;
-    /* height: 100vh; */
-    /* z-index: 20; */
+    grid-template-columns: repeat(auto-fit, minmax(7em, 1fr));
     background-color: var(--clr2);
     border-radius: 1em;
 }
@@ -16,11 +13,28 @@
 
 .gallery img {
 
-    margin: 2em;
-    width: 11em;
+    margin: 2em auto;
+    width: 6em;
     border-radius: 1em;
     cursor: pointer;
 }
 
+@media (min-width:720px) {
+    .gallery {
+       
+        gap: 5em;
+     
+    }
 
+    .gallery img {
+
+        width: 10em;
+      
+    }
+    
+}
+
+@media (min-width: 1120px) {
+    
+}
 

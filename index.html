@@ -23,7 +23,7 @@
     <main class="main-container">
         <div class="gallery"></div>
 
-        <canvas class="canvas" id="canvas" width="700" height="700"></canvas>
+        <canvas class="canvas" id="canvas" width="300" height="300"></canvas>
 
         <section class="ui-container">
 
@@ -38,15 +38,13 @@
             </section>
 
             <section class="text-controls">
-                <button class="btn btn-control" onclick="onSetFontSize(2)"><img class="btn-img"
-                        src="img/ICONS/increase font.png"></button>
-                <button class="btn btn-control" onclick="onSetFontSize(-2)"><img class="btn-img"
-                        src="img/ICONS/decrease font.png"></button>
-                <button class="btn btn-control"><img class="btn-img" src="img/ICONS/align-to-left.png"></button>
-                <button class="btn btn-control"><img class="btn-img" src="img/ICONS/center-text-align.png"></button>
-                <button class="btn btn-control"><img class="btn-img" src="img/ICONS/align-to-right.png"></button>
-                <button class="btn btn-control"><img class="btn-img" src="img/ICONS/text stroke.png"></button>
-                <button class="btn btn-control color"><input type="color" id="text-color" value="#121212"
+                <button class="btn btn-control" onclick="onSetFontSize(2)"><img class="btn-img" src="img/ICONS/increase font.png"></button>
+                <button class="btn btn-control" onclick="onSetFontSize(-2)"><img class="btn-img" src="img/ICONS/decrease font.png"></button>
+                <button class="btn btn-control" onclick="onSetTextAlign('right')"><img class="btn-img" src="img/ICONS/align-to-left.png"></button>
+                <button class="btn btn-control" onclick="onSetTextAlign('center')"><img class="btn-img" src="img/ICONS/center-text-align.png"></button>
+                <button class="btn btn-control" onclick="onSetTextAlign('left')"><img class="btn-img" src="img/ICONS/align-to-right.png"></button>
+                <button class="btn btn-control" onclick="onSetTextStroke()"><img class="btn-img" src="img/ICONS/text stroke.png"></button>
+                <button class="btn btn-control color"><input type="color" id="text-color" value="#015EFE"
                         oninput="onSetTextColor(value)"></button>
 
                 <select class="font-select" name="font-select" id="font-select" onchange="onSetFont(value)">
@@ -64,17 +62,10 @@
                 <li class="sticker"><img onclick="onSetSticker(this)" src="img/imojis/1.png"></li>
                 <li class="sticker"><img onclick="onSetSticker(this)" src="img/imojis/2.png"></li>
                 <li class="sticker"><img onclick="onSetSticker(this)" src="img/imojis/3.png"></li>
-                <!-- <li class="sticker"></li>
-                <li class="sticker"></li>
-                <li class="sticker"></li>
-                <li class="sticker"></li>
-                <li class="sticker"></li>
-                <li class="sticker"></li>
-                <li class="sticker"></li> -->
             </ul>
 
             <section class="share-controls">
-                <button class="btn share">SHARE</button>
+                <button class="btn share" onclick="uploadImg()">SHARE</button>
                 <a class="btn download" href="#" onclick="downloadCanvas(this)">DOWNLOAD</a>
             </section>
 
@@ -83,6 +74,7 @@
     </main>
 
     <script src="js/service/util.js"></script>
+    <script src="js/service/upload-service.js"></script>
     <script src="js/service/meme-service.js"></script>
     <script src="js/main-controller.js"></script>
 </body>
