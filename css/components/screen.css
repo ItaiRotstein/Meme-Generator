@@ -1,4 +1,4 @@
-.main-screen , .modal-screen{
+.main-screen {
     position: fixed;
     z-index: 10;
     inset: 0;

@@ -27,13 +27,7 @@ function renderCanvas(ctxObject) {
     drawText()
 }
 
-function onRenderGallery() {
-
-    renderGallery()
-}
-
 function renderGallery() {
-    document.body.classList.toggle("menu-open");
 
     let elGallery = document.querySelector('.gallery')
     elGallery.classList.toggle('open')
