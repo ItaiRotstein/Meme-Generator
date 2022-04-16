@@ -1,76 +1,151 @@
 'use strict'
-'use strict'
 
 let gElCanvas
 let gCtx
-let gStartPos
-let gIsClicked = false
-const gTouchEvs = ['touchstart', 'touchmove', 'touchend']
 
 function init() {
-
     createCanvas()
-
+    document.querySelector('.font-size-show').innerText = getFontSize()
 }
 
 function createCanvas() {
     gElCanvas = document.querySelector('#canvas');
     gCtx = gElCanvas.getContext('2d');
-    addListeners()
-
 }
 
-function renderCanvas(ctxObject) {
-    let currMeme = getMeme()
-    drawImgMeme(currMeme.selectedImgId)
-    // gCtx.fillRect(0, 0, gElCanvas.width, gElCanvas.height)
-    drawText()
+function toggleMenu() {
+    document.body.classList.toggle('menu-open')
 }
 
-function renderGallery() {
+function renderCanvas() {
+    let meme = getMeme()
+    let memeImg = getImageById(meme.selectedImgId)
+    drawImgMeme(memeImg.url)
+    setTimeout(() => {
+        drawText(meme)
+        drawRect(meme)
+    }, 10)
+}
 
-    let elGallery = document.querySelector('.gallery')
-    elGallery.classList.toggle('open')
+function drawImgMeme(imageUrl) {
+    if (!imageUrl) return
+    console.log(imageUrl);
+    
+    let img = new Image()
+    img.src = imageUrl
+
+    // resizeCanvas(img)
+    img.onload = () => {
+        gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
+    }
+}
+
+function drawText(meme) {
+    if (!meme || meme.lines.length === 0) return
+    meme.lines.forEach(line => {
+
+        gCtx.textBaseline = 'hanging'
+        gCtx.textAlign = line.align
+
+        gCtx.fillStyle = line.textColor
+        gCtx.font = line.fontSize + ' ' + line.font
+        gCtx.fillText(line.txt, line.pos.x, line.pos.y)
+        gCtx.strokeStyle = 'black';
+        if (line.isStroke) gCtx.strokeText(line.txt, line.pos.x, line.pos.y);
+
+        line.size.width = parseInt(gCtx.measureText(line.txt).width)
+    })
+}
+
+
+function drawRect(meme) {
+    if (!meme || !meme.isLineChosen || meme.selectedLineIdx === -1 || meme.lines.length === 0) return
+    let line = meme.lines[meme.selectedLineIdx]
+
+    let rect = {
+        x: line.pos.x,
+        y: line.pos.y,
+        width: line.size.width,
+        height: line.size.height
+    }
+
+    if (line.align === 'center') rect.x = rect.x - (rect.width / 2)
+    else if (line.align === 'right') rect.x = rect.x - rect.width
+
+    gCtx.beginPath()
+    gCtx.rect(rect.x - 5, rect.y - 2, rect.width + 10, rect.height + 2);
+    gCtx.strokeStyle = 'black';
+    gCtx.stroke();
+    gCtx.closePath()
+
+    meme.isLineChosen = false
+}
+
+function renderGalleryModal() {
     var imgs = getImgs()
 
     let strHtmls = ''
-    strHtmls = imgs.map(img => `<img src="${img.url}" alt="" onclick="onSetImg(${img.id})">`)
+    strHtmls = imgs.map(img => `<img src="${img.url}" onclick="onSetImg(${img.id})">`)
 
-    elGallery.innerHTML = strHtmls.join('')
+    document.querySelector('.gallery-content').innerHTML = strHtmls.join('')
 }
 
-function addListeners() {
-    addMouseListeners()
-    addTouchListeners()
+function renderMemsModal(elMemes) {
+    let memes = loadFromStorage(STORAGE_KEY)
+    if (!memes || memes.length === 0) return
+    let strHtmls = ''
+    memes.map((meme) =>  {
+        var imgId = meme.slice(47)
+        strHtmls += elMemes.innerHTML = `<img src="http://ca-upload.com/here/img/${imgId}.jpg" onclick="onRenderSavedMeme(this)">`
+    })
+    elMemes.innerHTML = strHtmls
 }
 
-function addMouseListeners() {
-    gElCanvas.addEventListener('mousedown', onDown)
-    gElCanvas.addEventListener('mousemove', onMove)
-    gElCanvas.addEventListener('mouseup', onUp)
+function onRenderSavedMeme(img) {
+    document.querySelector('.memes-modal').classList.remove('open')
+
+    drawImgMeme(img.src)
 }
 
-function addTouchListeners() {
-    gElCanvas.addEventListener('touchstart', onDown)
-    gElCanvas.addEventListener('touchmove', onMove)
-    gElCanvas.addEventListener('touchend', onUp)
+function onRenderGalleryModal() {
+    document.body.classList.remove("menu-open");
+    document.querySelector('.memes-modal').classList.remove('open')
+    let elGallery = document.querySelector('.gallery-modal')
+    elGallery.classList.toggle('open')
+
+    renderGalleryModal()
 }
 
+function onRenderMemesModal() {
+    document.body.classList.remove("menu-open");
+    document.querySelector('.gallery-modal').classList.remove('open')
+
+    let elMemes = document.querySelector('.memes-modal')
+    renderMemsModal(elMemes)
+    elMemes.classList.toggle('open')
+}
 
 function onSetImg(imgId) {
-    document.querySelector('.gallery').classList.remove('open')
-    drawImgMeme(imgId)
+    document.querySelector('.gallery-modal').classList.remove('open')
     setMeme(imgId)
+    renderCanvas()
 }
 
-function drawImgMeme(id) {
-    let imgMeme = getImageById(id)
-    let img = new Image()
-    img.src = imgMeme.url
-    // resizeCanvas(img)
-    img.onload = () => {
-        gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height) //img,x,y,xend,yend
-    }
+function onDrawText(ev) {
+    ev.preventDefault()
+
+    let meme = getMeme()
+    let txt = document.querySelector('input[name=line-input]')
+    if (!txt.value || !meme) return
+
+    let font = getFont()
+    let fontSize = getFontSize() + 'px'
+    let textColor = getTextColor()
+    let textAlign = getTextAlign()
+    let stroke = isStroke()
+    setMemeLine(txt.value, font, fontSize, textColor, textAlign, stroke)
+    renderCanvas()
+    txt.value = ''
 }
 
 function onSetFont(font) {
@@ -79,118 +154,50 @@ function onSetFont(font) {
 
 function onSetFontSize(diff) {
     setFontSize(diff)
+    let fontSize = getFontSize()
+    document.querySelector('.font-size-show').innerText = fontSize
 }
 
 function onSetTextColor(color) {
     setTextColor(color)
+    document.querySelector('.btn-control.color').style.backgroundColor = color
 }
 
 function onSetTextAlign(align) {
     setTextAlign(align)
+    const elALigns = document.querySelectorAll('.align')
+    elALigns.forEach(elAlign => elAlign.classList.remove('active'))
+    document.querySelector('.align-' + align).classList.toggle('active')
 }
 
-function onSetTextStroke() {
+function onSetTextStroke(elStroke) {
     setTextStroke()
+    elStroke.classList.toggle('active')
 }
 
-function onDrawText(ev) {
-    ev.preventDefault()
-
-    let txt = document.querySelector('input[name=line-input]')
-    if (!txt.value) return
-
-    let font = getFont()
-    let fontSize = getFontSize() + 'px'
-    let textColor = getTextColor()
-    let textAlign = getTextAlign()
-    let stroke = isStroke()
-    setMemeLine(txt.value, font, fontSize, textColor, textAlign, stroke)
-    drawText()
-    txt.value = ''
+function onChooseLine() {
+    const meme = getMeme()
+    if (!meme || meme.lines.length === 0) return
+    meme.isLineChosen = true
+    meme.selectedLineIdx++
+    if (meme.selectedLineIdx > meme.lines.length - 1) meme.selectedLineIdx = 0
+    renderCanvas()
 }
 
-function drawText() {
-    let meme = getMeme()
-    if (!meme) return
-    let line = meme.lines[meme.lines.length - 1]
-    console.log(meme);
-    gCtx.textBaseline = 'hanging'
-    gCtx.textAlign = line.align
-
-    
-    gCtx.fillStyle = line.textColor
-    gCtx.font = line.fontSize + ' ' + line.font
-    gCtx.fillText(line.txt, line.pos.x, line.pos.y)
-    
-    gCtx.strokeStyle = 'black';
-    if (line.isStroke) gCtx.strokeText(line.txt, line.pos.x, line.pos.y);
-
-    let textWidth = gCtx.measureText(line.txt).width
-    createCtxObject(line.pos, textWidth, line.fontSize)
-
+function onMoveLine(diff) {
+    const meme = getMeme()
+    if (!meme || meme.selectedLineIdx === -1 || meme.lines.length === 0) return
+    meme.isLineChosen = false
+    meme.lines[meme.selectedLineIdx].pos.y += diff
+    renderCanvas()
 }
 
-function onSetSticker(img) {
-    drawSticker(img.src)
-}
-
-function drawSticker(stickerUrl) {
-    let sticker = new Image()
-    sticker.src = stickerUrl
-    sticker.width = gElCanvas.width / 8
-    sticker.height = gElCanvas.height / 8
-
-    let pos = getStickerPos(sticker)
-    sticker.onload = () => {
-        gCtx.drawImage(sticker, pos.x, pos.y, sticker.width, sticker.height) //img,x,y,xend,yend
-    }
-}
-
-function onDown(ev) {
-    gIsClicked = true
-    const pos = getEvPos(ev)
-    let ctxObject = getCtxObjectByPos(pos)
-    if (!ctxObject) return
-    setCtxObjectDrag(ctxObject, true)
-    gStartPos = pos
-    document.body.style.cursor = 'grabbing'
-
-}
-
-function onMove(ev) {
-    if (!gIsClicked) return
-    const pos = getEvPos(ev)
-    const ctxObject = getCtxObjectByPos(pos)
-    if (!ctxObject.isDrag) return
-    const dx = pos.x - gStartPos.x
-    const dy = pos.y - gStartPos.y
-    moveObject(ctxObject, dx, dy)
-    gStartPos = pos
-    renderCanvas(ctxObject)
-}
-
-function onUp(ev) {
-    const pos = getEvPos(ev)
-    let ctxObject = getCtxObjectByPos(pos)
-    setCtxObjectDrag(ctxObject, false)
-    document.body.style.cursor = 'grab'
-    gIsClicked = false
-}
-
-function getEvPos(ev) {
-    var pos = {
-        x: ev.offsetX,
-        y: ev.offsetY
-    }
-    if (gTouchEvs.includes(ev.type)) {
-        ev.preventDefault()
-        ev = ev.changedTouches[0]
-        pos = {
-            x: ev.pageX - ev.target.offsetLeft,
-            y: ev.pageY - ev.target.offsetTop
-        }
-    }
-    return pos
+function onRemoveLine() {
+    const meme = getMeme()
+    if (!meme || meme.selectedLineIdx === -1) return
+    let idx = meme.selectedLineIdx
+    meme.lines.splice(idx, 1)
+    renderCanvas()
 }
 
 function resizeCanvas(img) {
@@ -199,9 +206,15 @@ function resizeCanvas(img) {
 }
 
 function downloadCanvas(elLink) {
-    let meme = getMeme()
+    const meme = getMeme()
     if (!meme) return
     const data = gElCanvas.toDataURL()
     elLink.href = data
     elLink.download = 'my_canvas.jpg'
+}
+
+function onSaveToStorage() {
+    const meme = getMeme()
+    if (!meme) return
+    saveToStorage()
 }

@@ -1,0 +1,41 @@
+.memes-modal {
+    position: absolute;
+    z-index: 1;
+    width: 100vw;
+    height: 75%;
+    display: none;
+    grid-template-columns: repeat(auto-fit, minmax(7em, 1fr));
+    background-color: var(--clr2);
+    border-radius: 1em;
+}
+
+.memes-modal.open {
+    display: grid;
+}
+
+.memes-modal img {
+
+    margin: 2em auto;
+    width: 6em;
+    height: 6em;
+    border-radius: 1em;
+    cursor: pointer;
+}
+
+@media (min-width:720px) {
+    .memes-modal { 
+        align-self: flex-start;
+        gap: 5em;
+    }
+
+    .memes-modal img {
+        width: 9em;
+        height: 9em;
+    }
+    
+}
+
+@media (min-width: 1120px) {
+    
+}
+

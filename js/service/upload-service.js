@@ -1,6 +1,7 @@
 
 function uploadImg() {
-    console.log('share');
+    let meme = getMeme()
+    if (!meme) return
     const imgDataUrl = gElCanvas.toDataURL("image/jpeg");
 
     function onSuccess(uploadedImgUrl) {

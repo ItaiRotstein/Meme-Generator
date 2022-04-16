@@ -21,8 +21,8 @@
         <img class="logo" src="img/LOGO.png" alt="">
 
         <ul class="main-nav">
-            <li onclick="renderGallery()">Gallery</li>
-            <li>Memes</li>
+            <li onclick="onRenderGalleryModal()">Gallery</li>
+            <li onclick="onRenderMemesModal()">Memes</li>
             <li>About</li>
         </ul>
         <button class="btn menu-btn" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button>
@@ -32,9 +32,13 @@
 
 
     <main class="main-container">
-        <div class="gallery"></div>
+        <div class="gallery-modal">
+            <div class="search"></div>
+            <section class="gallery-content"></section>
+        </div>
+        <div class="memes-modal"></div>
 
-        <canvas class="canvas" id="canvas" width="300" height="300"></canvas>
+        <canvas class="canvas" id="canvas"></canvas>
 
         <section class="ui-container">
 
@@ -47,15 +51,23 @@
 
             <section class="line-controls">
 
-                <button class="btn btn-control add" onclick="onDrawText(event)">
+                <button class="btn btn-control add-line" onclick="onDrawText(event)">
                     <img class="btn-img"src="img/ICONS/add.png">
                 </button>
 
-                <button class="btn btn-control up-down">
+                <button class="btn btn-control move-line" onclick="onMoveLine(-5)">
+                    <i class="fa-solid fa-arrow-up"></i>
+                </button>
+
+                <button class="btn btn-control choose-line" onclick="onChooseLine()">
                     <img class="btn-img" src="img/ICONS/up-and-down.png">
                 </button>
 
-                <button class="btn btn-control trash">
+                <button class="btn btn-control move-line" onclick="onMoveLine(5)">
+                    <i class="fa-solid fa-arrow-down"></i>
+                </button>
+
+                <button class="btn btn-control remove-line" onclick="onRemoveLine()">
                     <img class="btn-img" src="img/ICONS/trash.png">
                 </button>
 
@@ -69,28 +81,31 @@
                     <img class="btn-img"src="img/ICONS/increase font.png">
                 </button>
 
+                <span class="font-size-show">40</span>
+
                 <button class="btn btn-control" onclick="onSetFontSize(-2)">
                     <img class="btn-img"src="img/ICONS/decrease font.png">
                 </button>
 
-                <button class="btn btn-control" onclick="onSetTextAlign('right')">
+                <button class="btn btn-control align align-right" onclick="onSetTextAlign('right')">
                     <img class="btn-img" src="img/ICONS/align-to-left.png">
                 </button>
 
-                <button class="btn btn-control align-center" onclick="onSetTextAlign('center')">
+                <button class="btn btn-control align align-center" onclick="onSetTextAlign('center')">
                     <img class="btn-img"src="img/ICONS/center-text-align.png">
                 </button>
 
-                <button class="btn btn-control align-right" onclick="onSetTextAlign('left')">
+                <button class="btn btn-control align align-left" onclick="onSetTextAlign('left')">
                     <img class="btn-img"src="img/ICONS/align-to-right.png">
                 </button>
 
-                <button class="btn btn-control stroke" onclick="onSetTextStroke()">
+                <button class="btn btn-control stroke" onclick="onSetTextStroke(this)">
                     <img class="btn-img"src="img/ICONS/text stroke.png">
                 </button>
 
                 <button class="btn btn-control color">
-                    <input type="color" id="text-color" value="#015EFE"oninput="onSetTextColor(value)">
+                    <img class="btn-img paint-board" src="img/ICONS/paint-board.png">
+                    <input type="color" id="text-color" value="#015EFE" oninput="onSetTextColor(value)">
                 </button>
 
 
@@ -108,14 +123,15 @@
             </section>
 
 
-            <ul class="stickers">
+            <!-- <ul class="stickers">
                 <li class="sticker"><img onclick="onSetSticker(this)" src="img/imojis/1.png"></li>
                 <li class="sticker"><img onclick="onSetSticker(this)" src="img/imojis/2.png"></li>
                 <li class="sticker"><img onclick="onSetSticker(this)" src="img/imojis/3.png"></li>
-            </ul>
+            </ul> -->
 
             <section class="share-controls">
                 <button class="btn share" onclick="uploadImg()">SHARE</button>
+                <button class="btn save" onclick="onSaveToStorage()">Save</button>
                 <a class="btn download" href="#" onclick="downloadCanvas(this)">DOWNLOAD</a>
             </section>
 
@@ -123,12 +139,8 @@
 
     </main>
 
-    <script>
-        function toggleMenu() {
-            document.body.classList.toggle("menu-open");
-        }
-    </script>
     <script src="js/service/util.js"></script>
+    <script src="js/service/storage-service.js"></script>
     <script src="js/service/upload-service.js"></script>
     <script src="js/service/meme-service.js"></script>
     <script src="js/main-controller.js"></script>

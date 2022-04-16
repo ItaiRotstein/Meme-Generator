@@ -21,12 +21,15 @@ var gImgs = [
     { id: 18, url: 'img/meme-imgs (square)/18.jpg', keywords: ['comic', 'kids'] },
 ]
 
-let gCtxObjects = []
 let gCurrFont = 'Impact'
-let gCurrFontSize = 60
-let gCurrTextColor = '#ffffff'
-let gCurrTextAlign = 'left'
+let gCurrFontSize = 20
+let gCurrTextColor = '#015EFE'
+let gCurrTextAlign = 'center'
 let gCurrIsStroke = false
+let gCurrLineHeight = 20
+
+const STORAGE_KEY = 'memeDb'
+let gMemes = []
 
 var gKeywordSearchCountMap = { 'funny': 12, 'cat': 16, 'baby': 2 }
 
@@ -50,10 +53,6 @@ function getImageById(imgId) {
 function setMeme(imgId) {
     _createMeme(imgId)
 }
-
-// function getObject() {
-//     return object
-// }
 
 function getFont() {
     return gCurrFont
@@ -79,52 +78,13 @@ function getImgs() {
     return gImgs
 }
 
-function createCtxObject(pos, width, height) {
-    height = _getFixedHeight(height)
-    let ctxObject = {
-        pos,
-        size: { x: width, y: height },
-        isDrag: false,
-        id: makeId()
-    }
-    gCtxObjects.push(ctxObject)
-}
-
-
-function isCtxObjectClicked(clickedPos) {
-    console.log(clickedPos);
-    console.log(gCtxObjects);
-
-    var isClicked = gCtxObjects.some(ctxObject =>
-        (clickedPos.x >= ctxObject.pos.x) && (clickedPos.x <= (ctxObject.pos.x + ctxObject.size.x))
-        && (clickedPos.y >= ctxObject.pos.y) && (clickedPos.y <= (ctxObject.pos.y + ctxObject.size.y))
-    )
-    console.log(isClicked);
-    return isClicked
-}
-
-function getCtxObjectByPos(pos) {
-    return gCtxObjects.find(ctxObject => (pos.x >= ctxObject.pos.x) && (pos.x <= (ctxObject.pos.x + ctxObject.size.x))
-        && (pos.y >= ctxObject.pos.y) && (pos.y <= (ctxObject.pos.y + ctxObject.size.y))
-    )
-}
-
-function setCtxObjectDrag(ctxObject, isDrag) {
-    ctxObject.isDrag = isDrag
-    console.log(ctxObject);
-}
-
-function moveObject(ctxObject, dx, dy) {
-    ctxObject.pos.x += dx
-    ctxObject.pos.y += dy
-}
-
 function setFont(font) {
     gCurrFont = font
 }
 
 function setFontSize(diff) {
     gCurrFontSize += diff
+    gCurrLineHeight = gCurrFontSize
 }
 
 function setTextColor(color) {
@@ -133,36 +93,45 @@ function setTextColor(color) {
 
 function setTextAlign(align) {
     gCurrTextAlign = align
-    console.log('align', align)
-    console.log('gCurrTextAlign', gCurrTextAlign)
-    
 }
 
 function setTextStroke() {
-    gCurrIsStroke = true
+    if (!gCurrIsStroke) gCurrIsStroke = true
+    else gCurrIsStroke = false
 }
 
-let gStickerPos
-function getStickerPos(sticker) {
-    if (gStickerPos) {
-        gStickerPos.x += 70
-    }
-    else {
-        gStickerPos = {
-            x: (gElCanvas.width / 6),
-            y: (gElCanvas.height / 4)
-        }
-    }
-    return gStickerPos
+function saveToStorage() {
+    const imgDataUrl = gElCanvas.toDataURL("image/jpeg");
+    _doUploadImg(imgDataUrl);
 }
 
+function _doUploadImg(imgDataUrl) {
+
+    const formData = new FormData();
+    formData.append('img', imgDataUrl)
+
+    fetch('//ca-upload.com/here/upload.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(res => res.text())
+        .then((url) => {
+            console.log('Got back live url:', url);
+            gMemes.push(url)
+            saveMemeToStorage(STORAGE_KEY, gMemes)
+        })
+        .catch((err) => {
+            console.error(err)
+        })
+}
 
 function _createMeme(imgId) {
     gMeme = {
         selectedImgId: imgId,
-        selectedLineIdx: 0,
-        inputCount: 0,
+        selectedLineIdx: -1,
+        LinesCount: 0,
         lines: [],
+        isLineChosen: false
     }
 }
 
@@ -172,25 +141,25 @@ function _createLine(txt, font, fontSize, textColor, align, isStroke) {
         font,
         fontSize,
         textColor,
-        pos: _getPos(), 
-        isStroke, 
-        align
+        pos: _getPos(),
+        isStroke,
+        align,
+        size: { height: gCurrLineHeight },
     }
 }
 
 function _getPos() {
     let pos = {}
-    if (gMeme.inputCount === 0) {
-        pos.x = gElCanvas.width / 3
+    pos.x = gElCanvas.width / 2
+    if (gMeme.LinesCount === 0) {
         pos.y = gElCanvas.height / 6
-    } else if (gMeme.inputCount === 1) {
-        pos.x = gElCanvas.width / 3
+    } else if (gMeme.LinesCount === 1) {
         pos.y = (gElCanvas.height / 6) * 5
     } else {
-        pos.x = gElCanvas.width / 3
         pos.y = gElCanvas.height / 2
     }
-    gMeme.inputCount++
+
+    gMeme.LinesCount++
     pos.x = parseInt(pos.x)
     pos.y = parseInt(pos.y)
     return pos
@@ -200,3 +169,4 @@ function _getFixedHeight(height) {
     height = height.slice(0, height.indexOf('px'))
     return +height
 }
+
