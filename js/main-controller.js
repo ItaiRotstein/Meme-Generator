@@ -72,7 +72,7 @@ function drawText(meme) {
         gCtx.textAlign = line.align
 
         gCtx.fillStyle = line.textColor
-        gCtx.font = line.fontSize+'px' + ' ' + line.font
+        gCtx.font = line.fontSize + 'px' + ' ' + line.font
         gCtx.fillText(line.txt, line.pos.x, line.pos.y)
         gCtx.strokeStyle = 'black';
         if (line.isStroke) gCtx.strokeText(line.txt, line.pos.x, line.pos.y);
@@ -193,7 +193,7 @@ function onSetFontSize(diff) {
     let fontSize = getFontSize()
     document.querySelector('.font-size-show').innerText = fontSize
     let meme = getMeme()
-    if (!meme) return
+    if (!meme || meme.selectedLineIdx === -1) return
     meme.lines[meme.selectedLineIdx].fontSize += diff
     renderCanvas()
 
@@ -203,7 +203,7 @@ function onSetTextColor(color) {
     setTextColor(color)
     document.querySelector('.btn-control.color').style.backgroundColor = color
     let meme = getMeme()
-    if (!meme) return
+    if (!meme || meme.selectedLineIdx === -1) return
     meme.lines[meme.selectedLineIdx].textColor = color
     renderCanvas()
 }
@@ -246,8 +246,8 @@ function onRemoveLine() {
 }
 
 function resizeCanvas(img) {
-    gElCanvas.width = img.width    
-    gElCanvas.height = (img.height * gElCanvas.width) / img.width  
+    gElCanvas.width = img.width
+    gElCanvas.height = (img.height * gElCanvas.width) / img.width
 }
 
 function downloadCanvas(elLink) {
