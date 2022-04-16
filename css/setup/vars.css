@@ -2,4 +2,5 @@
 :root {
     --clr1: #22252c;
     --clr2: #383b42;
+    --clr3: linear-gradient(-86deg, #33be6d 0%, #0c98b9 100%);
 }

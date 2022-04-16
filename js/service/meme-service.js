@@ -22,16 +22,15 @@ var gImgs = [
 ]
 
 let gCurrFont = 'Impact'
-let gCurrFontSize = 20
+let gCurrFontSize = 50
 let gCurrTextColor = '#015EFE'
 let gCurrTextAlign = 'center'
 let gCurrIsStroke = false
-let gCurrLineHeight = 20
+let gCurrLineHeight = 50
 
 const STORAGE_KEY = 'memeDb'
 let gMemes = []
 
-var gKeywordSearchCountMap = { 'funny': 12, 'cat': 16, 'baby': 2 }
 
 var gMeme
 
@@ -164,9 +163,3 @@ function _getPos() {
     pos.y = parseInt(pos.y)
     return pos
 }
-
-function _getFixedHeight(height) {
-    height = height.slice(0, height.indexOf('px'))
-    return +height
-}
-

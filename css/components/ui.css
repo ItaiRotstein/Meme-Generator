@@ -109,29 +109,29 @@
     padding: 0;
 }
 
-.btn-control.stroke.active{
+.btn-control.stroke.active {
     background-color: #8c0606;
 
 }
 
 .btn-img.paint-board {
-    position: absolute; 
-    right: 3px; 
+    position: absolute;
+    right: 3px;
     top: 1px;
     width: 2.1em;
 }
 
-.btn-control.active{
-    background-color:tomato;
+.btn-control.active {
+    background-color: tomato;
 }
 
 input[type="color"] {
-   
+
     width: 1.5em;
     height: 1.5em;
     padding: 0;
     margin: 0;
-    opacity: 0; 
+    opacity: 0;
     cursor: pointer;
 }
 
@@ -184,10 +184,11 @@ input[type="color"] {
         width: 350px;
         height: 350px;
         font-size: 0.8em;
+        gap: 1em;
     }
 
     .btn-img.paint-board {
-        right: 1px; 
+        right: 1px;
         top: 3px;
     }
 }
@@ -197,10 +198,10 @@ input[type="color"] {
         width: 500px;
         height: 500px;
         font-size: 1.1em;
-    } 
+    }
 
     .btn-img.paint-board {
-        right: 1 px; 
+        right: 1 px;
         top: 5px;
     }
 }

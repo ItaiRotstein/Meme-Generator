@@ -30,12 +30,28 @@
 
 
 
-
     <main class="main-container">
+       
         <div class="gallery-modal">
-            <div class="search"></div>
+            <div class="search-container">
+                <div class="search-input">
+                    <form oninput="onFilterKeyWordsDataList(event)">
+                        <input list="keyWords" name="keyWord" id="keyword" autocomplete="off" placeholder="Search...">
+                        <datalist id="keyWords">
+                            <option value="cute">
+                            <option value="funny">
+                            <option value="animal">
+                            <option value="man">
+                            <option value="stupid">
+                          </datalist>
+                    </form>
+                    <img src="img/ICONS/search-icon.png" alt="">
+                </div>
+                <div class="tag-search"></div>
+            </div>
             <section class="gallery-content"></section>
         </div>
+        
         <div class="memes-modal"></div>
 
         <canvas class="canvas" id="canvas"></canvas>
@@ -43,7 +59,7 @@
         <section class="ui-container">
 
 
-            <form onsubmit="onDrawText(event)">
+            <form onsubmit="onSetLine(event)">
                 <input class="input" name="line-input" type="text" placeholder="Type Line" autocomplete="off">
             </form>
 
@@ -51,7 +67,7 @@
 
             <section class="line-controls">
 
-                <button class="btn btn-control add-line" onclick="onDrawText(event)">
+                <button class="btn btn-control add-line" onclick="onSetLine(event)">
                     <img class="btn-img"src="img/ICONS/add.png">
                 </button>
 
