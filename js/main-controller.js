@@ -189,22 +189,22 @@ function onSetFont(font) {
 }
 
 function onSetFontSize(diff) {
-    let meme = getMeme()
-    if (!meme) return
-    meme.lines[meme.selectedLineIdx].fontSize += diff
     setFontSize(diff)
     let fontSize = getFontSize()
     document.querySelector('.font-size-show').innerText = fontSize
+    let meme = getMeme()
+    if (!meme) return
+    meme.lines[meme.selectedLineIdx].fontSize += diff
     renderCanvas()
 
 }
 
 function onSetTextColor(color) {
+    setTextColor(color)
+    document.querySelector('.btn-control.color').style.backgroundColor = color
     let meme = getMeme()
     if (!meme) return
     meme.lines[meme.selectedLineIdx].textColor = color
-    setTextColor(color)
-    document.querySelector('.btn-control.color').style.backgroundColor = color
     renderCanvas()
 }
 
