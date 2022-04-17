@@ -8,7 +8,7 @@ function init() {
     createCanvas()
     onKeyWordsSetup()
     addListeners()
-    drawImgMeme('img/meme-imgs (square)/5.jpg')
+    onRenderGalleryModal()
     document.querySelector('.font-size-show').innerText = getFontSize()
 }
 
