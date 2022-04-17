@@ -259,6 +259,7 @@ function downloadCanvas(elLink) {
 }
 
 function onSaveToStorage() {
+    alert('Your meme is saved!')
     const meme = getMeme()
     if (!meme) return
     saveToStorage()
